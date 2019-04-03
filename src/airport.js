@@ -8,7 +8,7 @@ function Airport(weather) {
 
 Airport.prototype.allowLanding = function(plane) {
 
-  Airport.prototype.isFull = function() {
+  this.isFull = function() {
     if (this.list.length == this.capacity) return true;
   }
 

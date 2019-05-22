@@ -4,6 +4,7 @@ describe("Airport", function() {
     weather = new Weather();
     airport = new Airport(weather);
     plane = new Plane();
+    spyOn(weather, 'isStormy').and.returnValue(false);
   });
 
   it("allows a specific plane to land", function() {
@@ -16,20 +17,27 @@ describe("Airport", function() {
     expect(airport.list).toContain(plane);
   });
 
-  it("allow take off of last plane and confirms plane is no longer at airport", function() {
-    spyOn(weather, 'isStormy').and.returnValue(false);
+  it("allow take off of any plane and confirms plane is no longer at airport", function() {
     airport.allowLanding(plane);
-    airport.takeOff();
+    airport.allowTakeOff(plane);
     expect(airport.list).not.toContain(plane);
 
   });
 
   it("prevents takeoff when weather is stormy", function() {
-    spyOn(weather, 'isStormy').and.returnValue(true);
     airport.allowLanding(plane);
-    airport.takeOff();
+    // spyOn(weather, 'isStormy').and.returnValue(true);
+    weather.isStormy.and.returnValue(true);
+    airport.allowTakeOff(plane);
     expect(weather.isStormy).toHaveBeenCalled();
     expect(airport.list).toContain(plane);
+  });
+
+  it("prevents landing when the weather is stormy", function(){
+    weather.isStormy.and.returnValue(true);
+    airport.allowLanding(plane);
+    expect(weather.isStormy).toHaveBeenCalled();
+    expect(airport.list).not.toContain(plane);
   });
 
   it("has a default capacity of 1", function() {

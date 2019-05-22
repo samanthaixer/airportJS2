@@ -1,10 +1,10 @@
+'use strict';
+
 function Airport(weather) {
   this.list = [];
   this.weather = weather;
   this.capacity = 1;
-}
-
-
+};
 
 Airport.prototype.allowLanding = function(plane) {
 
@@ -12,16 +12,20 @@ Airport.prototype.allowLanding = function(plane) {
     if (this.list.length == this.capacity) return true;
   }
 
-  if(this.isFull() != true) {
-    this.list.push(plane);
-    return plane;
-  }
-  else throw new Error("Airport is full");
-};
-
-Airport.prototype.takeOff = function() {
-  if (this.weather.isStormy() == false) {
-    this.list.pop();
+  if(this.weather.isStormy()!= true) {
+    if(this.isFull() != true) {
+      this.list.push(plane);
+      return plane;
+    }
+    else throw new Error("Airport is full");
   }
   return plane;
-}
+};
+
+Airport.prototype.allowTakeOff = function(plane) {
+  if (this.weather.isStormy() == false) {
+    let index = this.list.indexOf(plane);
+    this.list.splice(index, 1);
+  }
+  return plane;
+};

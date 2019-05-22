@@ -1,10 +1,14 @@
+'use strict';
+
+// NOTE: This is bad practice - need to understand more about modules
+const _CHANCE_OF_STORM = 0.8;
+
 function Weather() {
 
 };
 
 Weather.prototype.isStormy = function() {
   let generator = Math.random();
-  console.log(generator);
-  if(generator == 0) return false;
+  if(generator <= _CHANCE_OF_STORM) return false;
   return true;
 };
